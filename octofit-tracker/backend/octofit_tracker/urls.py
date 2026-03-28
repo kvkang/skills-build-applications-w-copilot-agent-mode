@@ -30,7 +30,15 @@ from django.http import JsonResponse
 from rest_framework.routers import DefaultRouter
 
 def api_root(request):
-    return JsonResponse({"message": "Octofit API Root"})
+    codespace_name = os.environ.get('CODESPACE_NAME')
+    if codespace_name:
+        api_url = f"https://{codespace_name}-8000.app.github.dev/api/"
+    else:
+        api_url = "http://localhost:8000/api/"
+    return JsonResponse({
+        "message": "Octofit API Root",
+        "api_url": api_url
+    })
 
 router = DefaultRouter()
 
